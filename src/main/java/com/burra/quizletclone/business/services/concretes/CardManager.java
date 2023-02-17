@@ -3,7 +3,9 @@ package com.burra.quizletclone.business.services.concretes;
 import com.burra.quizletclone.business.requests.cards.CardCreateRequest;
 import com.burra.quizletclone.business.services.abstracts.CardService;
 import com.burra.quizletclone.core.utilities.results.DataResult;
+import com.burra.quizletclone.core.utilities.results.Result;
 import com.burra.quizletclone.core.utilities.results.SuccessDataResult;
+import com.burra.quizletclone.core.utilities.results.SuccessResult;
 import com.burra.quizletclone.dataAccess.abstracts.CardRepository;
 import com.burra.quizletclone.dataAccess.abstracts.CardsetRepository;
 import com.burra.quizletclone.entities.concretes.Card;
@@ -45,4 +47,10 @@ public class CardManager implements CardService {
 
     return new SuccessDataResult<Card>(newCard);
   }
+
+@Override
+public Result delete(int cardId) {
+  cardRepository.deleteById(cardId);
+	return new SuccessResult();
+}
 }
