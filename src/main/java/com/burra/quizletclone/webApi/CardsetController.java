@@ -4,8 +4,6 @@ import com.burra.quizletclone.business.requests.cardsets.CardsetCreateRequest;
 import com.burra.quizletclone.business.services.abstracts.CardsetService;
 import com.burra.quizletclone.core.utilities.results.Result;
 import jakarta.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
