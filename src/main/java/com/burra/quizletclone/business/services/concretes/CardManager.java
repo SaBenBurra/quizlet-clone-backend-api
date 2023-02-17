@@ -1,7 +1,9 @@
 package com.burra.quizletclone.business.services.concretes;
 
 import com.burra.quizletclone.business.requests.cards.CardCreateRequest;
+import com.burra.quizletclone.business.requests.cards.CardUpdateRequest;
 import com.burra.quizletclone.business.responses.cards.CardCreateResponse;
+import com.burra.quizletclone.business.responses.cards.CardUpdateResponse;
 import com.burra.quizletclone.business.services.abstracts.CardService;
 import com.burra.quizletclone.core.utilities.results.DataResult;
 import com.burra.quizletclone.core.utilities.results.Result;
@@ -35,7 +37,9 @@ public class CardManager implements CardService {
   }
 
   @Override
-  public DataResult<CardCreateResponse> create(CardCreateRequest cardCreateRequest) {
+  public DataResult<CardCreateResponse> create(
+    CardCreateRequest cardCreateRequest
+  ) {
     Cardset cardset = cardsetRepository.getReferenceById(
       cardCreateRequest.getCardsetId()
     );
@@ -46,13 +50,27 @@ public class CardManager implements CardService {
     card.setCardset(cardset);
     Card newCard = cardRepository.save(card);
 
-    CardCreateResponse cardCreateResponse = CardCreateResponse.FromEntity(newCard);
+    CardCreateResponse cardCreateResponse = CardCreateResponse.FromEntity(
+      newCard
+    );
     return new SuccessDataResult<CardCreateResponse>(cardCreateResponse);
   }
 
-@Override
-public Result delete(int cardId) {
-  cardRepository.deleteById(cardId);
-	return new SuccessResult();
-}
+  @Override
+  public Result delete(int cardId) {
+    cardRepository.deleteById(cardId);
+    return new SuccessResult();
+  }
+
+  @Override
+  public DataResult<CardUpdateResponse> update(CardUpdateRequest request, int cardId) {
+    Card card = cardRepository.getReferenceById(cardId);
+    card.setTerm(request.getTerm());
+    card.setDefinition(request.getDefinition());
+
+    Card updatedCard = cardRepository.save(card);
+    CardUpdateResponse response = CardUpdateResponse.FromEntity(updatedCard);
+
+    return new SuccessDataResult<CardUpdateResponse>(response);
+  }
 }
