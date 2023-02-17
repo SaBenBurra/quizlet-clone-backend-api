@@ -1,7 +1,9 @@
 package com.burra.quizletclone.business.services.concretes;
 
 import com.burra.quizletclone.business.requests.cardsets.CardsetCreateRequest;
+import com.burra.quizletclone.business.requests.cardsets.CardsetUpdateRequest;
 import com.burra.quizletclone.business.responses.cardsets.CardsetCreateResponse;
+import com.burra.quizletclone.business.responses.cardsets.CardsetUpdateResponse;
 import com.burra.quizletclone.business.services.abstracts.CardsetService;
 import com.burra.quizletclone.core.utilities.results.DataResult;
 import com.burra.quizletclone.core.utilities.results.Result;
@@ -49,4 +51,14 @@ public class CardsetManager implements CardsetService {
     cardsetRepository.deleteById(cardsetId);
     return new SuccessResult("Set başarıyla silindi");
   }
+
+@Override
+public DataResult<CardsetUpdateResponse> update(CardsetUpdateRequest request, int cardsetId) {
+  Cardset cardset = cardsetRepository.getReferenceById(cardsetId);
+  cardset.setName(request.getName());
+  Cardset updatedCardset = cardsetRepository.save(cardset);
+
+  CardsetUpdateResponse response = CardsetUpdateResponse.FromEntity(updatedCardset);
+	return new SuccessDataResult<CardsetUpdateResponse>(response);
+}
 }
