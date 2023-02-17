@@ -1,6 +1,7 @@
 package com.burra.quizletclone.business.services.concretes;
 
 import com.burra.quizletclone.business.requests.cards.CardCreateRequest;
+import com.burra.quizletclone.business.responses.cards.CardCreateResponse;
 import com.burra.quizletclone.business.services.abstracts.CardService;
 import com.burra.quizletclone.core.utilities.results.DataResult;
 import com.burra.quizletclone.core.utilities.results.Result;
@@ -34,7 +35,7 @@ public class CardManager implements CardService {
   }
 
   @Override
-  public DataResult<Card> create(CardCreateRequest cardCreateRequest) {
+  public DataResult<CardCreateResponse> create(CardCreateRequest cardCreateRequest) {
     Cardset cardset = cardsetRepository.getReferenceById(
       cardCreateRequest.getCardsetId()
     );
@@ -45,7 +46,8 @@ public class CardManager implements CardService {
     card.setCardset(cardset);
     Card newCard = cardRepository.save(card);
 
-    return new SuccessDataResult<Card>(newCard);
+    CardCreateResponse cardCreateResponse = CardCreateResponse.FromEntity(newCard);
+    return new SuccessDataResult<CardCreateResponse>(cardCreateResponse);
   }
 
 @Override
