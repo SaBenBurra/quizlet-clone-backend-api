@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class ExistsValidator
-  implements ConstraintValidator<Exists, Object> {
+  implements ConstraintValidator<Exists, Integer> {
 
   private String table;
 
@@ -20,7 +20,7 @@ public class ExistsValidator
   }
 
   @Override
-  public boolean isValid(Object value, ConstraintValidatorContext context) {
+  public boolean isValid(Integer value, ConstraintValidatorContext context) {
     int count = jdbcTemplate.queryForObject(
       "SELECT COUNT(*) FROM " + table + " WHERE id = ?",
       new Object[] { value },
@@ -32,7 +32,7 @@ public class ExistsValidator
       context.disableDefaultConstraintViolation();
       context
         .buildConstraintViolationWithTemplate(
-          "bu kart seti veri tabanında yok"
+          "bu veri, veri tabanında yok"
         )
         .addConstraintViolation();
     }

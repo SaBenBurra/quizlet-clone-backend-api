@@ -8,11 +8,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ ElementType.FIELD })
+@Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ExistsValidator.class)
 public @interface Exists {
-
   String message() default "";
 
   String table();
@@ -20,5 +19,4 @@ public @interface Exists {
   Class<?>[] groups() default {};
 
   Class<? extends Payload>[] payload() default {};
-
 }
