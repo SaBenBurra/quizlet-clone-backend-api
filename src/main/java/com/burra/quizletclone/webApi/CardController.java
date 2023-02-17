@@ -3,11 +3,11 @@ package com.burra.quizletclone.webApi;
 import com.burra.quizletclone.business.requests.cards.CardCreateRequest;
 import com.burra.quizletclone.business.services.abstracts.CardService;
 import com.burra.quizletclone.core.utilities.results.Result;
-
 import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,8 +31,17 @@ public class CardController {
   }
 
   @PostMapping("/create")
-  public ResponseEntity<Result> create(@Valid @RequestBody CardCreateRequest request) {
+  public ResponseEntity<Result> create(
+    @Valid @RequestBody CardCreateRequest request
+  ) {
     Result result = cardService.create(request);
+
+    return ResponseEntity.ok(result);
+  }
+
+  @DeleteMapping("/delete/{id}")
+  public ResponseEntity<Result> delete(@PathVariable int id) {
+    Result result = cardService.delete(id);
 
     return ResponseEntity.ok(result);
   }
