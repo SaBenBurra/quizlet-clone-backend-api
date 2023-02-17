@@ -9,9 +9,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "cards")
+@Data
+@NoArgsConstructor
 public class Card {
 
   @Id
@@ -29,36 +33,4 @@ public class Card {
 
   @Column(name = "term")
   private String term;
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public Cardset getCardset() {
-    return cardset;
-  }
-
-  public void setCardset(Cardset cardset) {
-    this.cardset = cardset;
-  }
-
-  public String getDefinition() {
-    return definition;
-  }
-
-  public void setDefinition(String definition) {
-    this.definition = definition;
-  }
-
-  public String getTerm() {
-    return term;
-  }
-
-  public void setTerm(String term) {
-    this.term = term;
-  }
 }
