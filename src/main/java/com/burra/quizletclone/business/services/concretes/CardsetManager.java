@@ -4,7 +4,9 @@ import com.burra.quizletclone.business.requests.cardsets.CardsetCreateRequest;
 import com.burra.quizletclone.business.responses.cardsets.CardsetCreateResponse;
 import com.burra.quizletclone.business.services.abstracts.CardsetService;
 import com.burra.quizletclone.core.utilities.results.DataResult;
+import com.burra.quizletclone.core.utilities.results.Result;
 import com.burra.quizletclone.core.utilities.results.SuccessDataResult;
+import com.burra.quizletclone.core.utilities.results.SuccessResult;
 import com.burra.quizletclone.dataAccess.abstracts.CardsetRepository;
 import com.burra.quizletclone.entities.concretes.Cardset;
 import java.util.ArrayList;
@@ -40,5 +42,11 @@ public class CardsetManager implements CardsetService {
     return new SuccessDataResult<CardsetCreateResponse>(
       CardsetCreateResponse.FromEntity(newCardset)
     );
+  }
+
+  @Override
+  public Result delete(int cardsetId) {
+    cardsetRepository.deleteById(cardsetId);
+    return new SuccessResult("Set başarıyla silindi");
   }
 }
