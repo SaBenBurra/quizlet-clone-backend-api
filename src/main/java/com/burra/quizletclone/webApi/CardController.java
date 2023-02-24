@@ -3,7 +3,6 @@ package com.burra.quizletclone.webApi;
 import com.burra.quizletclone.business.requests.cards.CardCreateRequest;
 import com.burra.quizletclone.business.requests.cards.CardUpdateRequest;
 import com.burra.quizletclone.business.services.abstracts.CardService;
-import com.burra.quizletclone.core.annotations.Exists;
 import com.burra.quizletclone.core.utilities.results.Result;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,7 @@ public class CardController {
     this.cardService = cardService;
   }
 
-  @GetMapping("/getAll")
+  @GetMapping
   public ResponseEntity<Result> getAll() {
     Result result = cardService.getAll();
 
@@ -40,7 +39,7 @@ public class CardController {
     return ResponseEntity.ok(result);
   }
 
-  @PostMapping("/create")
+  @PostMapping
   public ResponseEntity<Result> create(
     @Valid @RequestBody CardCreateRequest request
   ) {
@@ -49,14 +48,14 @@ public class CardController {
     return ResponseEntity.ok(result);
   }
 
-  @DeleteMapping("/delete/{id}")
+  @DeleteMapping("/{id}")
   public ResponseEntity<Result> delete(@PathVariable int id) {
     Result result = cardService.delete(id);
 
     return ResponseEntity.ok(result);
   }
 
-  @PutMapping("/update/{id}")
+  @PutMapping("/{id}")
   public ResponseEntity<Result> update(
     @PathVariable int id,
     @RequestBody CardUpdateRequest request

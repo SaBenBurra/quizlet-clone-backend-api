@@ -26,7 +26,7 @@ public class CardsetController {
     this.cardsetService = cardsetService;
   }
 
-  @GetMapping("/getAll")
+  @GetMapping
   public ResponseEntity<Result> getAll() {
     Result result = cardsetService.getAll();
     return ResponseEntity.ok(result);
@@ -39,7 +39,7 @@ public class CardsetController {
     return ResponseEntity.ok(result);
   }
 
-  @PostMapping("/create")
+  @PostMapping
   public ResponseEntity<Result> create(
     @Valid @RequestBody CardsetCreateRequest request
   ) {
@@ -48,14 +48,14 @@ public class CardsetController {
     return ResponseEntity.ok(result);
   }
 
-  @DeleteMapping("/delete/{id}")
+  @DeleteMapping("/{id}")
   public ResponseEntity<Result> delete(@PathVariable int id) {
     Result result = cardsetService.delete(id);
 
     return ResponseEntity.ok(result);
   }
 
-  @PutMapping("/update/{id}")
+  @PutMapping("/{id}")
   public ResponseEntity<Result> update(
     @PathVariable @Exists(table = "cards") int id,
     @RequestBody CardsetUpdateRequest request
