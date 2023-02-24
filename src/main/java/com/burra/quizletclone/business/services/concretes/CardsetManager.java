@@ -3,6 +3,7 @@ package com.burra.quizletclone.business.services.concretes;
 import com.burra.quizletclone.business.requests.cardsets.CardsetCreateRequest;
 import com.burra.quizletclone.business.requests.cardsets.CardsetUpdateRequest;
 import com.burra.quizletclone.business.responses.cardsets.CardsetCreateResponse;
+import com.burra.quizletclone.business.responses.cardsets.CardsetGetByIdResponse;
 import com.burra.quizletclone.business.responses.cardsets.CardsetUpdateResponse;
 import com.burra.quizletclone.business.services.abstracts.CardsetService;
 import com.burra.quizletclone.core.utilities.results.DataResult;
@@ -34,6 +35,13 @@ public class CardsetManager implements CardsetService {
   }
 
   @Override
+  public DataResult<CardsetGetByIdResponse> getById(int cardsetId) {
+    Cardset cardset = cardsetRepository.getReferenceById(cardsetId);
+    CardsetGetByIdResponse response = CardsetGetByIdResponse.FromEntity(cardset);
+    return new SuccessDataResult<CardsetGetByIdResponse>(response);
+  }
+
+  @Override
   public DataResult<CardsetCreateResponse> create(
     CardsetCreateRequest request
   ) {
@@ -52,13 +60,18 @@ public class CardsetManager implements CardsetService {
     return new SuccessResult("Set başarıyla silindi");
   }
 
-@Override
-public DataResult<CardsetUpdateResponse> update(CardsetUpdateRequest request, int cardsetId) {
-  Cardset cardset = cardsetRepository.getReferenceById(cardsetId);
-  cardset.setName(request.getName());
-  Cardset updatedCardset = cardsetRepository.save(cardset);
+  @Override
+  public DataResult<CardsetUpdateResponse> update(
+    CardsetUpdateRequest request,
+    int cardsetId
+  ) {
+    Cardset cardset = cardsetRepository.getReferenceById(cardsetId);
+    cardset.setName(request.getName());
+    Cardset updatedCardset = cardsetRepository.save(cardset);
 
-  CardsetUpdateResponse response = CardsetUpdateResponse.FromEntity(updatedCardset);
-	return new SuccessDataResult<CardsetUpdateResponse>(response);
-}
+    CardsetUpdateResponse response = CardsetUpdateResponse.FromEntity(
+      updatedCardset
+    );
+    return new SuccessDataResult<CardsetUpdateResponse>(response);
+  }
 }
