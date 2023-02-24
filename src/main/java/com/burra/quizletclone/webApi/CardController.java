@@ -33,6 +33,13 @@ public class CardController {
     return ResponseEntity.ok(result);
   }
 
+  @GetMapping("/{id}")
+  public ResponseEntity<Result> getById(@PathVariable int id) {
+    Result result = cardService.getById(id);
+
+    return ResponseEntity.ok(result);
+  }
+
   @PostMapping("/create")
   public ResponseEntity<Result> create(
     @Valid @RequestBody CardCreateRequest request
