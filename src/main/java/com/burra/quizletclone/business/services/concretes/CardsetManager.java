@@ -3,6 +3,7 @@ package com.burra.quizletclone.business.services.concretes;
 import com.burra.quizletclone.business.requests.cardsets.CardsetCreateRequest;
 import com.burra.quizletclone.business.requests.cardsets.CardsetUpdateRequest;
 import com.burra.quizletclone.business.responses.cardsets.CardsetCreateResponse;
+import com.burra.quizletclone.business.responses.cardsets.CardsetGetAllResponse;
 import com.burra.quizletclone.business.responses.cardsets.CardsetGetByIdResponse;
 import com.burra.quizletclone.business.responses.cardsets.CardsetUpdateResponse;
 import com.burra.quizletclone.business.services.abstracts.CardsetService;
@@ -25,11 +26,16 @@ public class CardsetManager implements CardsetService {
   }
 
   @Override
-  public DataResult<ArrayList<Cardset>> getAll() {
+  public DataResult<ArrayList<CardsetGetAllResponse>> getAll() {
     ArrayList<Cardset> cardsets = (ArrayList<Cardset>) cardsetRepository.findAll();
+    ArrayList<CardsetGetAllResponse> response = new ArrayList<CardsetGetAllResponse>();
 
-    return new SuccessDataResult<ArrayList<Cardset>>(
-      cardsets,
+    for (Cardset cardset : cardsets) {
+      response.add(CardsetGetAllResponse.FromEntity(cardset));
+    }
+
+    return new SuccessDataResult<ArrayList<CardsetGetAllResponse>>(
+      response,
       "Setler listelendi."
     );
   }
@@ -37,7 +43,9 @@ public class CardsetManager implements CardsetService {
   @Override
   public DataResult<CardsetGetByIdResponse> getById(int cardsetId) {
     Cardset cardset = cardsetRepository.getReferenceById(cardsetId);
-    CardsetGetByIdResponse response = CardsetGetByIdResponse.FromEntity(cardset);
+    CardsetGetByIdResponse response = CardsetGetByIdResponse.FromEntity(
+      cardset
+    );
     return new SuccessDataResult<CardsetGetByIdResponse>(response);
   }
 
