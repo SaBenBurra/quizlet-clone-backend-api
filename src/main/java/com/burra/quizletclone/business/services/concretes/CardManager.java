@@ -50,26 +50,6 @@ public class CardManager implements CardService {
   }
 
   @Override
-  public DataResult<CardCreateResponse> create(
-    CardCreateRequest cardCreateRequest
-  ) {
-    Cardset cardset = cardsetRepository.getReferenceById(
-      cardCreateRequest.getCardsetId()
-    );
-
-    Card card = new Card();
-    card.setDefinition(cardCreateRequest.getDefinition());
-    card.setTerm(cardCreateRequest.getTerm());
-    card.setCardset(cardset);
-    Card newCard = cardRepository.save(card);
-
-    CardCreateResponse cardCreateResponse = CardCreateResponse.FromEntity(
-      newCard
-    );
-    return new SuccessDataResult<CardCreateResponse>(cardCreateResponse);
-  }
-
-  @Override
   public Result delete(int cardId) {
     cardRepository.deleteById(cardId);
     return new SuccessResult();

@@ -43,15 +43,6 @@ public class CardController {
     return ResponseEntity.ok(result);
   }
 
-  @PostMapping
-  public ResponseEntity<Result> create(
-    @Valid @RequestBody CardCreateRequest request
-  ) {
-    Result result = cardService.create(request);
-
-    return ResponseEntity.ok(result);
-  }
-
   @DeleteMapping("/{id}")
   public ResponseEntity<Result> delete(@PathVariable int id) {
     Result result = cardService.delete(id);
