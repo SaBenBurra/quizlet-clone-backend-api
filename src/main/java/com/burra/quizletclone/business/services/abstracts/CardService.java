@@ -16,7 +16,7 @@ import com.burra.quizletclone.entities.concretes.Card;
  */
 public interface CardService {
 
-  public DataResult<ArrayList<Card>> getAll();
+  public DataResult<ArrayList<Card>> getAll(Long cardsetId);
 
   public DataResult<CardGetByIdResponse> getById(int cardId);
 

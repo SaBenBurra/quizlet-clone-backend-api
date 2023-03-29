@@ -32,8 +32,12 @@ public class CardManager implements CardService {
   }
 
   @Override
-  public DataResult<ArrayList<Card>> getAll() {
-    ArrayList<Card> cards = (ArrayList<Card>) cardRepository.findAll();
+  public DataResult<ArrayList<Card>> getAll(Long cardsetId) {
+    ArrayList<Card> cards = (ArrayList<Card>) (
+      (cardsetId != null)
+        ? cardRepository.findAll()
+        : cardRepository.findByCardsetId(cardsetId)
+    );
     return new SuccessDataResult<ArrayList<Card>>(cards);
   }
 

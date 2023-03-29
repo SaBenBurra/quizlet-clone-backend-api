@@ -3,6 +3,7 @@ package com.burra.quizletclone.webApi;
 import com.burra.quizletclone.business.requests.cards.CardCreateRequest;
 import com.burra.quizletclone.business.requests.cards.CardUpdateRequest;
 import com.burra.quizletclone.business.services.abstracts.CardService;
+import com.burra.quizletclone.core.annotations.Exists;
 import com.burra.quizletclone.core.utilities.results.Result;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,8 +28,10 @@ public class CardController {
   }
 
   @GetMapping
-  public ResponseEntity<Result> getAll() {
-    Result result = cardService.getAll();
+  public ResponseEntity<Result> getAll(
+    @RequestParam(required = false) @Exists(table = "cardsets") Long cardsetId
+  ) {
+    Result result = cardService.getAll(cardsetId);
 
     return ResponseEntity.ok(result);
   }
