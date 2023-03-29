@@ -30,4 +30,9 @@ public class Cardset {
 
   @Column(name = "name")
   private String name;
+
+  public void addCard(Card card) {
+    cards.add(card);
+    card.setCardset(this);
+  }
 }
