@@ -13,6 +13,7 @@ import com.burra.quizletclone.core.utilities.results.DataResult;
 import com.burra.quizletclone.core.utilities.results.Result;
 import com.burra.quizletclone.core.utilities.results.SuccessDataResult;
 import com.burra.quizletclone.core.utilities.results.SuccessResult;
+import com.burra.quizletclone.dataAccess.abstracts.CardRepository;
 import com.burra.quizletclone.dataAccess.abstracts.CardsetRepository;
 import com.burra.quizletclone.entities.concretes.Card;
 import com.burra.quizletclone.entities.concretes.Cardset;
@@ -20,16 +21,19 @@ import com.burra.quizletclone.entities.concretes.Cardset;
 import jakarta.transaction.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CardsetManager implements CardsetService {
 
   private CardsetRepository cardsetRepository;
+  private CardRepository cardRepository;
   private CardService cardService;
 
-  public CardsetManager(CardsetRepository cardsetRepository, CardService cardService) {
+  public CardsetManager(CardsetRepository cardsetRepository, CardRepository cardRepository, CardService cardService) {
     this.cardsetRepository = cardsetRepository;
+    this.cardRepository = cardRepository;
     this.cardService = cardService;
   }
 
@@ -82,13 +86,15 @@ public class CardsetManager implements CardsetService {
     CardsetUpdateRequest request,
     int cardsetId
   ) {
-    Cardset cardset = cardsetRepository.getReferenceById(cardsetId);
+    Cardset cardset = cardsetRepository.findById(cardsetId).get();
     cardset.setName(request.getName());
 
-    ArrayList<Card> oldCards = (ArrayList<Card>) cardset.getCards();
+    List<Card> oldCards = cardset.getCards();
+
     for(Card card : oldCards) {
-      cardService.delete(card.getId());
+      cardRepository.delete(card);
     }
+    oldCards.clear();
 
     ArrayList<CardCreateRequest> newCardsData = (ArrayList<CardCreateRequest>) request.getCards();
     
@@ -96,14 +102,19 @@ public class CardsetManager implements CardsetService {
       Card newCard = new Card();
       newCard.setDefinition(cardData.getDefinition());
       newCard.setTerm(cardData.getTerm());
+      newCard.setCardset(cardset);
       cardset.addCard(newCard);
     }
 
     Cardset updatedCardset = cardsetRepository.save(cardset);
 
+    for(Card card : updatedCardset.getCards()) {
+      System.out.println(card.getDefinition() + "--" + card.getTerm());
+    }
     CardsetUpdateResponse response = CardsetUpdateResponse.FromEntity(
       updatedCardset
     );
+
     return new SuccessDataResult<CardsetUpdateResponse>(response);
   }
 }
