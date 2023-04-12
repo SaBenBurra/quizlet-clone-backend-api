@@ -6,10 +6,7 @@ import lombok.Data;
 @Data
 public class CardCreateRequest {
 
-  @NotBlank
-  private String definition;
+  @NotBlank private String definition;
 
-  @NotBlank
-  private String term;
-
+  @NotBlank private String term;
 }
